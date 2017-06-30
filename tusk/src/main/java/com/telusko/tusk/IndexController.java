@@ -1,50 +1,42 @@
 package com.telusko.tusk;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 
-import com.telusko.dao.FeedbackDao;
-import com.telusko.entity.Feedback;
-
+import com.telusko.tusk.dao.FeedbackDao;
+import com.telusko.tusk.entity.Feedback;
 
 @Controller
 public class IndexController {
-
-//@Autowired
-FeedbackDao Feed;
-
 	
+	
+	@Autowired
+	FeedbackDao fdao;
+	
+	
+	Feedback feedback;
 	
 	@RequestMapping("/")
-	public String home()
-	{
-	
+	public String home(){
 		return "index.jsp";
 	}
- 
 	
-      @RequestMapping("/huh")
+	@RequestMapping("/feedback.htm")
 	public String feedback(){
-		return "redirect :feedback";
-		
+		return "feedback.jsp";
 	}
 	
+	@RequestMapping("/addFeedback")
+//public String addFeedback(@RequestParam("name")String name, @RequestParam("email")String email,@RequestParam("msg")String msg,@RequestParam("reg")String reg, @RequestParam("code")String code, @RequestParam("rating")String rating)
 	
-	@RequestMapping("/rapap")
-	 	public String addFeedback(@ModelAttribute("feedback") Feedback feedback)
-		{
-		System.out.println("I am in add method");
-		feedback = new Feedback();
-
-	
-			Feed.addFeedback(feedback);
-			return "redirect:/welcome";
-		
-		}
+	public String addFeedback(@ModelAttribute ("feedback")Feedback feedback)
+	{
+	 //feedback = new Feedback(name,email,reg,code,rating);
+		fdao.addFeedback(feedback);
+		return "welcome.jsp";
+	}
 
 }
